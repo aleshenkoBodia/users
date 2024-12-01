@@ -1,0 +1,34 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main  # Запускати на кожен push до основної гілки
+  pull_request:
+    branches:
+      - main  # Запускати на кожен pull request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Використовуємо останнє середовище Ubuntu
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # Завантажуємо код з репозиторію
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.12'  # Вказуємо версію Python, яку будемо використовувати
+
+      - name: Install dependencies
+        run: |
+          python -m venv venv  # Створюємо віртуальне середовище
+          source venv/bin/activate  # Активуємо середовище
+          pip install -r requirements.txt  # Встановлюємо залежності
+
+      - name: Run tests
+        run: |
+          source venv/bin/activate  # Активуємо середовище
+          pytest --cov=users --cov-report=xml --junitxml=report.xml
+
