@@ -2,6 +2,7 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 
@@ -10,10 +11,13 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()  # Збереження нового користувача
-            return redirect('home')  # Перенаправлення на головну сторінку
+            return redirect('/login/')  # Перенаправлення
+        else:
+            print("Form errors:", form.errors)  # Логування помилок форми
     else:
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
+
 
 def login_view(request):
     if request.method == 'POST':
