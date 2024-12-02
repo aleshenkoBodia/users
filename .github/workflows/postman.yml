@@ -1,0 +1,14 @@
+name: Run API Tests
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Install Newman
+      run: npm install -g newman
+    - name: Run Postman Tests
+      run: newman run ваш_файл_колекції.json
